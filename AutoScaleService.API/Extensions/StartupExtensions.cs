@@ -5,21 +5,23 @@ using AutoScaleService.API.Services;
 using AutoScaleService.API.Services.Abstracts;
 using AutoScaleService.Notifications;
 using AutoScaleService.Notifications.Abstracts;
-using AutoScaleService.RabbitMq;
+using AutoScaleService.Queue;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace AutoScaleService.API.Extentions
+namespace AutoScaleService.API.Extensions
 {
-    public static class StartupExtentions
+    public static class StartupExtensions
     {
-        public static void RequsterServices(this IServiceCollection services)
+        public static void ReqisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<ITasksQueue>(new RabbitMQTasksQueue());
+            services.AddSingleton(typeof(ITasksQueue<>), typeof(SimpleQueue<>));
             services.AddTransient<IHttpService, HttpService>();
             services.AddTransient<INotificationsService, NotificationsService>();
-            services.AddTransient<IComputeResouncesManager, ComputeResouncesManager>();
-            services.AddTransient<IComputeResourcesFactory, ComputeResourcesFactory>();
+            services.AddTransient<IComputeResourcesManager, ComputeResourcesManager>();
+            services.AddTransient(typeof(IComputeResourcesFactory<>), typeof(ComputeResourcesFactory));
             services.AddSingleton<IResourcesStorage, ResourcesStorage>();
+            services.AddSingleton<IHostedService, TimedHostedService>();
         }
     }
 }

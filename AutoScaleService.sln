@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoScaleService.Notificati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.Queue", "AutoScaleService.Queue\AutoScaleService.Queue.csproj", "{709ACCE8-35A6-474E-924A-DB0FFA9650FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.Client", "AutoScaleService.Client\AutoScaleService.Client.csproj", "{B29A9A44-2F06-46C2-854D-8A0E33878B1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{709ACCE8-35A6-474E-924A-DB0FFA9650FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709ACCE8-35A6-474E-924A-DB0FFA9650FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{709ACCE8-35A6-474E-924A-DB0FFA9650FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29A9A44-2F06-46C2-854D-8A0E33878B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29A9A44-2F06-46C2-854D-8A0E33878B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29A9A44-2F06-46C2-854D-8A0E33878B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29A9A44-2F06-46C2-854D-8A0E33878B1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

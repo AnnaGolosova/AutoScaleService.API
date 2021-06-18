@@ -1,4 +1,3 @@
-using AutoScaleService.API.Extentions;
 using AutoScaleService.API.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using AutoScaleService.API.Extensions;
+using AutoScaleService.Models.ResourcesSettings;
 
 namespace AutoScaleService.API
 {
@@ -19,8 +20,7 @@ namespace AutoScaleService.API
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -33,7 +33,7 @@ namespace AutoScaleService.API
                 {
                     Version = "v1",
                     Title = "API for Auto-Scale service",
-                    Description = "a simple API to use our auto-scale service for executing your distributed tasts",
+                    Description = "a simple API to use our auto-scale service for executing your distributed tasks",
                     Contact = new OpenApiContact
                     {
                         Name = "Uladzislau Korsak",
@@ -42,14 +42,11 @@ namespace AutoScaleService.API
                 });
             });
 
-            services.AddSingleton(Configuration);
+            services.AddSingleton(Configuration.Get<ResourcesSettings>());
+            services.ReqisterServices();
 
-            services.RequsterServices();
-
-            services.AddSingleton<IHostedService, TimedHostedService>();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

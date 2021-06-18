@@ -5,36 +5,33 @@ using AutoScaleService.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using AutoScaleService.API.Query;
+using MediatR;
 
 namespace AutoScaleService.API.Controllers
 {
     [ApiController]
-    [Route("compute-resources")]
+    [Route("api/compute-resources")]
     public class ComputeResourcesController : ControllerBase
     {
-        private readonly ILogger<ComputeResourcesController> _logger;
-        private readonly IComputeResourcesManager _computeResourcesManager;
-        private readonly IResourcesStorage _resourcesStorage;
+        private readonly IMediator _mediator;
 
-        public ComputeResourcesController(
-            ILogger<ComputeResourcesController> logger,
-            IResourcesStorage resourcesStorage, IComputeResourcesManager computeResourcesManager)
+        public ComputeResourcesController(IMediator mediator)
         {
-            _logger = logger;
-            _resourcesStorage = resourcesStorage;
-            _computeResourcesManager = computeResourcesManager;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("available-resources-count")]
+        public async Task<IActionResult> GetAvailableResourcesCount()
         {
-            return Ok(new ResourcesCountResponse(_resourcesStorage.GetAvailableResourcesCount()));
+            var result = await _mediator.Send(new GetAvailableResourcesCountQuery());
+
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTaskAsync([FromBody]RegisterTaskModel registerTaskModel)
+        public async Task<IActionResult> RegisterTaskAsync([FromBody] RegisterTaskModel registerTaskModel)
         {
-            // Add summary comments everywere
             return Created(string.Empty, new RegisteredTaskResponse());
         }
     }

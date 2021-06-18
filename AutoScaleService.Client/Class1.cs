@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoScaleService.Queue
+namespace AutoScaleService.Client
 {
     public class Class1
     {

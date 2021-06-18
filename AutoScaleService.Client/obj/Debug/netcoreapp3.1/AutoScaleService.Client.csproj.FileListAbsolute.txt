@@ -1,0 +1,9 @@
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.deps.json
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.dll
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.pdb
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.csprojAssemblyReference.cache
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.AssemblyInfoInputs.cache
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.AssemblyInfo.cs
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.csproj.CoreCompileInputs.cache
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.dll
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.pdb

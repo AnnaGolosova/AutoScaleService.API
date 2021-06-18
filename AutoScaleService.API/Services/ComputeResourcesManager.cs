@@ -11,9 +11,10 @@ namespace AutoScaleService.API.Services
         private readonly IMediator _mediator;
         private readonly IResourcesStorage _resourcesStorage;
 
-        public ComputeResouncesManager(IMediator mediator)
+        public ComputeResourcesManager(IMediator mediator, IResourcesStorage resourcesStorage)
         {
             _mediator = mediator;
+            _resourcesStorage = resourcesStorage;
         }
 
         public void ProcessNextTask(WorkItem workItem)

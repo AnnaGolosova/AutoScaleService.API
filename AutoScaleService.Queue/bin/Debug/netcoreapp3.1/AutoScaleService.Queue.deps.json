@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "AutoScaleService.Queue/1.0.0": {
+        "dependencies": {
+          "AutoScaleService.AbstractQueue": "1.0.0"
+        },
+        "runtime": {
+          "AutoScaleService.Queue.dll": {}
+        }
+      },
+      "AutoScaleService.AbstractQueue/1.0.0": {
+        "runtime": {
+          "AutoScaleService.AbstractQueue.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AutoScaleService.Queue/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AutoScaleService.AbstractQueue/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

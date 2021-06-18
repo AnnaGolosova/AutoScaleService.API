@@ -1,0 +1,12 @@
+D:\Projects\Test\AutoScaleService.Queue\bin\Debug\netcoreapp3.1\AutoScaleService.Queue.deps.json
+D:\Projects\Test\AutoScaleService.Queue\bin\Debug\netcoreapp3.1\AutoScaleService.Queue.dll
+D:\Projects\Test\AutoScaleService.Queue\bin\Debug\netcoreapp3.1\AutoScaleService.Queue.pdb
+D:\Projects\Test\AutoScaleService.Queue\bin\Debug\netcoreapp3.1\AutoScaleService.AbstractQueue.dll
+D:\Projects\Test\AutoScaleService.Queue\bin\Debug\netcoreapp3.1\AutoScaleService.AbstractQueue.pdb
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.csprojAssemblyReference.cache
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.AssemblyInfoInputs.cache
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.AssemblyInfo.cs
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.csproj.CoreCompileInputs.cache
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.csproj.CopyComplete
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.dll
+D:\Projects\Test\AutoScaleService.Queue\obj\Debug\netcoreapp3.1\AutoScaleService.Queue.pdb

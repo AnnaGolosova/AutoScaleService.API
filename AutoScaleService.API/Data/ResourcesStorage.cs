@@ -5,36 +5,34 @@ using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using AutoScaleService.Models.ResourcesSettings;
 
 namespace AutoScaleService.API.Data
 {
     public class ResourcesStorage : IResourcesStorage
     {
-        private readonly IComputeResourcesFactory _resourcesFactory;
+        private readonly IComputeResourcesFactory<ComputeResource> _resourcesFactory;
         private readonly IHostedService _hostedService;
-
-        public readonly int MaxResourcesCount;
+        private readonly ResourcesSettings _resourcesSettings;
 
         private readonly List<AbstractComputeResource> _resources;
 
-        public ResourcesStorage(IConfiguration configuration,
-            IComputeResourcesFactory resourcesFabric,
-            IHostedService hostedService)
+        public ResourcesStorage(IConfiguration configuration, IHostedService hostedService, ResourcesSettings resourcesSettings, IComputeResourcesFactory<ComputeResource> resourcesFactory)
         {
-            _resourcesFactory = resourcesFabric;
-            MaxResourcesCount = configuration.GetValue<int>("MaxResourcesCount");
             _hostedService = hostedService;
+            _resourcesSettings = resourcesSettings;
+            _resourcesFactory = resourcesFactory;
 
             _resources = new List<AbstractComputeResource>();
         }
 
-        public int GetAvailableResourcesCount() => _resources.Count(r => !r.isBusy) + MaxResourcesCount - _resources.Count();
+        public int GetAvailableResourcesCount() => _resources.Count(r => !r.isBusy) + _resourcesSettings.MaxCount - _resources.Count();
 
         public void Execute(int requestedResourcesCount, ExecutableTask task)
         {
             var countToCreate = requestedResourcesCount - GetAvailableResourcesCount();
 
-            if(GetAvailableResourcesCount() < requestedResourcesCount && MaxResourcesCount > countToCreate + _resources.Count)
+            if(GetAvailableResourcesCount() < requestedResourcesCount && _resourcesSettings.MaxCount > countToCreate + _resources.Count)
             {
                 for(; countToCreate > 0; countToCreate--)
                 {
