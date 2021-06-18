@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/AutoScaleService.AbstractQueue/obj
+/.vs/AutoScaleService/v16
+/AutoScaleService.API/obj
+/AutoScaleService.Models/obj
+/AutoScaleService.RabbitMq/obj
+/AutoScaleService.AbstractQueue/bin/Debug/netcoreapp3.1
+/AutoScaleService.API/bin/Debug/netcoreapp3.1
+/AutoScaleService.Models/bin/Debug/netcoreapp3.1
+/AutoScaleService.RabbitMq/bin/Debug/netcoreapp3.1
+/AutoScaleService.API/AutoScaleService.API.csproj.user
