@@ -1,4 +1,6 @@
-﻿using AutoScaleService.Models.Request;
+﻿using AutoScaleService.API.Data.Abstracts;
+using AutoScaleService.API.Services.Abstracts;
+using AutoScaleService.Models.Request;
 using AutoScaleService.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,16 +16,23 @@ namespace AutoScaleService.API.Controllers
     public class ComputeResourcesController : ControllerBase
     {
         private readonly ILogger<ComputeResourcesController> _logger;
+        private readonly IComputeResouncesManager _computeResouncesManager;
+        private readonly IResourcesStorage _resourcesStorage;
 
-        public ComputeResourcesController(ILogger<ComputeResourcesController> logger)
+        public ComputeResourcesController(
+            ILogger<ComputeResourcesController> logger,
+            IResourcesStorage resourcesStorage,
+            IComputeResouncesManager computeResouncesManager)
         {
             _logger = logger;
+            _resourcesStorage = resourcesStorage;
+            _computeResouncesManager = computeResouncesManager;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(1);
+            return Ok(new ResourcesCountResponse(_resourcesStorage.GetAvaliableResourcesCount()));
         }
 
         [HttpPost]

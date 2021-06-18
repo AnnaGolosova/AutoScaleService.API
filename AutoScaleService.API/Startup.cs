@@ -1,16 +1,13 @@
-using AutoScaleService.AbstractQueue;
-using AutoScaleService.RabbitMq;
+using AutoScaleService.API.Extentions;
+using AutoScaleService.API.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace AutoScaleService.API
 {
@@ -28,7 +25,28 @@ namespace AutoScaleService.API
         {
             services.AddControllers();
 
-            services.AddSingleton<ITasksQueue>(new RabbitMQTasksQueue());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API for Auto-Scale service",
+                    Description = "a simple API to use our auto-scale service for executing your distributed tasts",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Uladzislau Korsak",
+                        Email = "v.korsak@softteco.com"
+                    }
+                });
+            });
+
+            services.AddSingleton(Configuration);
+
+            services.RequsterServices();
+
+            services.AddSingleton<IHostedService, TimedHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +58,13 @@ namespace AutoScaleService.API
             }
 
             app.UseRouting();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auto-Scale service v1");
+            });
 
             app.UseAuthorization();
 

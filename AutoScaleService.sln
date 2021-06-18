@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.API", "AutoScaleService.API\AutoScaleService.API.csproj", "{976416F3-F5B6-4FBC-B941-22F2F1AB6744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoScaleService.API", "AutoScaleService.API\AutoScaleService.API.csproj", "{976416F3-F5B6-4FBC-B941-22F2F1AB6744}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.Models", "AutoScaleService.Models\AutoScaleService.Models.csproj", "{A55F574B-DA85-4C55-866F-C8B9D5ADCEBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoScaleService.Models", "AutoScaleService.Models\AutoScaleService.Models.csproj", "{A55F574B-DA85-4C55-866F-C8B9D5ADCEBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.AbstractQueue", "AutoScaleService.AbstractQueue\AutoScaleService.AbstractQueue.csproj", "{5836FC0A-C6F1-4457-8C33-86CC06D44D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoScaleService.AbstractQueue", "AutoScaleService.AbstractQueue\AutoScaleService.AbstractQueue.csproj", "{5836FC0A-C6F1-4457-8C33-86CC06D44D58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.RabbitMq", "AutoScaleService.RabbitMq\AutoScaleService.RabbitMq.csproj", "{F42EEFF8-F903-460B-AE42-222A52600C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoScaleService.RabbitMq", "AutoScaleService.RabbitMq\AutoScaleService.RabbitMq.csproj", "{F42EEFF8-F903-460B-AE42-222A52600C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleService.Notifications", "AutoScaleService.Notifications\AutoScaleService.Notifications.csproj", "{A5EB460E-1F53-4BCA-A071-43F8A7F001B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F42EEFF8-F903-460B-AE42-222A52600C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F42EEFF8-F903-460B-AE42-222A52600C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F42EEFF8-F903-460B-AE42-222A52600C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5EB460E-1F53-4BCA-A071-43F8A7F001B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5EB460E-1F53-4BCA-A071-43F8A7F001B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5EB460E-1F53-4BCA-A071-43F8A7F001B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5EB460E-1F53-4BCA-A071-43F8A7F001B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

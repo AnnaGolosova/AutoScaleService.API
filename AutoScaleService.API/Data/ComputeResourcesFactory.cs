@@ -1,9 +1,10 @@
-﻿using AutoScaleService.API.Data.Contracts;
+﻿using AutoScaleService.API.Data.Abstracts;
+using AutoScaleService.API.Data.Contracts;
 using Microsoft.Extensions.Logging;
 
 namespace AutoScaleService.API.Data
 {
-    public class ComputeResourcesFactory
+    public class ComputeResourcesFactory : IComputeResourcesFactory
     {
         private readonly ILogger<ComputeResourcesFactory> _logger;
 

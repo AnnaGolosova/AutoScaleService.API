@@ -1,22 +1,24 @@
-﻿using AutoScaleService.API.Data.Contracts;
+﻿using AutoScaleService.API.Data.Abstracts;
+using AutoScaleService.API.Data.Contracts;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AutoScaleService.API.Data
 {
-    public class ResourcesStorage
+    public class ResourcesStorage : IResourcesStorage
     {
-        private readonly ComputeResourcesFactory _resourcesFactory;
+        private readonly IComputeResourcesFactory _resourcesFactory;
 
         public readonly int MaxResourcesCount;
 
         private List<AbstractComputeResource> _resources;
 
-        public ResourcesStorage(int maxResourcesCount,
-            ComputeResourcesFactory resourcesFabric)
+        public ResourcesStorage(IConfiguration mySettings,
+            IComputeResourcesFactory resourcesFabric)
         {
             _resourcesFactory = resourcesFabric;
-            MaxResourcesCount = maxResourcesCount;
+            MaxResourcesCount = mySettings.GetValue<int>("MaxResourcesCount");
 
             _resources = new List<AbstractComputeResource>();
         }
@@ -26,10 +28,10 @@ namespace AutoScaleService.API.Data
 
         public void StartTaskExecution(int requestedResourcesCount, ExecutableTask task)
         {
-            if(GetAvaliableResourcesCount() < requestedResourcesCount && MaxResourcesCount > requestedResourcesCount - GetAvaliableResourcesCount() + _resources.Count)
-            {
-                var countToCreate = requestedResourcesCount - GetAvaliableResourcesCount();
+            var countToCreate = requestedResourcesCount - GetAvaliableResourcesCount();
 
+            if(GetAvaliableResourcesCount() < requestedResourcesCount && MaxResourcesCount > countToCreate + _resources.Count)
+            {
                 for(; countToCreate > 0; countToCreate--)
                 {
                     var newResource = _resourcesFactory.Create<ComputeResource>();
