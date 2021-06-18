@@ -2,7 +2,7 @@
 
 namespace AutoScaleService.API.Services
 {
-    public class ComputeResouncesManager : IComputeResouncesManager
+    public class ComputeResourcesManager : IComputeResourcesManager
     {
         public void AddTaskToQueue()
         {

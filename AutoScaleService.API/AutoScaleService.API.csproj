@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoScaleService.AbstractQueue\AutoScaleService.AbstractQueue.csproj" />
     <ProjectReference Include="..\AutoScaleService.Models\AutoScaleService.Models.csproj" />
-    <ProjectReference Include="..\AutoScaleService.RabbitMq\AutoScaleService.RabbitMq.csproj" />
+    <ProjectReference Include="..\AutoScaleService.RabbitMq\AutoScaleService.Queue.csproj" />
   </ItemGroup>
 
 

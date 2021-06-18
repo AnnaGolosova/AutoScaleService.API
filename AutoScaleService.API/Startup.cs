@@ -28,7 +28,7 @@ namespace AutoScaleService.API
         {
             services.AddControllers();
 
-            services.AddSingleton<ITasksQueue>(new RabbitMQTasksQueue());
+            services.AddSingleton(typeof(ITasksQueue<>), typeof(SimpleQueue<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

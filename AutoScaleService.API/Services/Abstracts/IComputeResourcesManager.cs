@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AutoScaleService.API.Services.Abstracts
 {
-    public interface IComputeResouncesManager
+    public interface IComputeResourcesManager
     {
     }
 }
