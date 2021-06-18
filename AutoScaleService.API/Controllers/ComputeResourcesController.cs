@@ -4,9 +4,6 @@ using AutoScaleService.Models.Request;
 using AutoScaleService.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoScaleService.API.Controllers
@@ -38,6 +35,7 @@ namespace AutoScaleService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterTaskAsync([FromBody]RegisterTaskModel registerTaskModel)
         {
+            // Add summary comments everywere
             return Created(string.Empty, new RegisteredTaskResponse());
         }
     }

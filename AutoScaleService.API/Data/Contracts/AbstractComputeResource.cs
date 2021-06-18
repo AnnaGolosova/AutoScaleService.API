@@ -16,5 +16,11 @@
 
             isBusy = false;
         }
+
+        public virtual void Release()
+        {
+            Task = null;
+            isBusy = false;
+        }
     }
 }
