@@ -1,10 +1,25 @@
-﻿namespace AutoScaleService.API.Data.Contracts
+﻿using AutoScaleService.API.Commands;
+using MediatR;
+
+namespace AutoScaleService.API.Data.Contracts
 {
     public class ComputeResource :  AbstractComputeResource
     {
-        public override void Invoke(ExecutableTask Task)
+        private readonly IMediator _mediator;
+
+        public ComputeResource(IMediator mediator) :  base()
         {
-            base.Invoke(Task);
+            _mediator = mediator;
+        }
+
+        public override void Invoke(ExecutableTask task)
+        {
+            base.Invoke(task);
+
+            _mediator.Send(new ComputeResourceReleasedCommand()
+            { 
+                ComputeResource = this
+            });
         }
     }
 }

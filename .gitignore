@@ -12,3 +12,6 @@
 /AutoScaleService.Models/bin/Debug/netcoreapp3.1
 /AutoScaleService.RabbitMq/bin/Debug/netcoreapp3.1
 /AutoScaleService.API/AutoScaleService.API.csproj.user
+/AutoScaleService.Notifications/bin/Debug/netcoreapp3.1
+/AutoScaleService.Notifications/obj
+/.vs/AutoScaleService/config

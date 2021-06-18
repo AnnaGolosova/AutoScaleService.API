@@ -1,38 +1,44 @@
-﻿using AutoScaleService.API.Data.Contracts;
+﻿using AutoScaleService.API.Data.Abstracts;
+using AutoScaleService.API.Data.Contracts;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace AutoScaleService.API.Data
 {
-    public class ResourcesStorage
+    public class ResourcesStorage : IResourcesStorage
     {
-        private readonly ComputeResourcesFactory _resourcesFactory;
+        private readonly IComputeResourcesFactory _resourcesFactory;
+        private readonly IHostedService _hostedService;
 
         public readonly int MaxResourcesCount;
 
-        private List<AbstractComputeResource> _resources;
+        private readonly List<AbstractComputeResource> _resources;
 
-        public ResourcesStorage(int maxResourcesCount,
-            ComputeResourcesFactory resourcesFabric)
+        public ResourcesStorage(IConfiguration configuration,
+            IComputeResourcesFactory resourcesFabric,
+            IHostedService hostedService)
         {
             _resourcesFactory = resourcesFabric;
-            MaxResourcesCount = maxResourcesCount;
+            MaxResourcesCount = configuration.GetValue<int>("MaxResourcesCount");
+            _hostedService = hostedService;
 
             _resources = new List<AbstractComputeResource>();
         }
 
-        public int GetAvaliableResourcesCount()
-            => _resources.Count(r => !r.isBusy);
+        public int GetAvailableResourcesCount() => _resources.Count(r => !r.isBusy) + MaxResourcesCount - _resources.Count();
 
-        public void StartTaskExecution(int requestedResourcesCount, ExecutableTask task)
+        public void Execute(int requestedResourcesCount, ExecutableTask task)
         {
-            if(GetAvaliableResourcesCount() < requestedResourcesCount && MaxResourcesCount > requestedResourcesCount - GetAvaliableResourcesCount() + _resources.Count)
-            {
-                var countToCreate = requestedResourcesCount - GetAvaliableResourcesCount();
+            var countToCreate = requestedResourcesCount - GetAvailableResourcesCount();
 
+            if(GetAvailableResourcesCount() < requestedResourcesCount && MaxResourcesCount > countToCreate + _resources.Count)
+            {
                 for(; countToCreate > 0; countToCreate--)
                 {
-                    var newResource = _resourcesFactory.Create<ComputeResource>();
+                    var newResource = _resourcesFactory.CreateComputeResource();
 
                     _resources.Add(newResource);
                 }
@@ -41,6 +47,22 @@ namespace AutoScaleService.API.Data
             List<AbstractComputeResource> resourcesForTaskProcessing = _resources.Where(r => !r.isBusy).Take(requestedResourcesCount).ToList();
 
             resourcesForTaskProcessing.ForEach(r => r.Invoke(task));
+        }
+
+        public void ReleaseComputeResource(AbstractComputeResource computeResource)
+        {
+            // To Do add locks to _resources collection
+            List<AbstractComputeResource> resource = _resources.FindAll(r => r.Task.Id == computeResource.Task.Id);
+
+            resource.ForEach(r =>
+            {
+                r.Release();
+            });
+
+            if (_resources.Count == 0 || _resources.All(r => !r.isBusy))
+            {
+                _hostedService.StartAsync(new CancellationToken());
+            }
         }
     }
 }

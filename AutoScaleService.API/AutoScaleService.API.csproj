@@ -5,8 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AutoScaleService.AbstractQueue\AutoScaleService.AbstractQueue.csproj" />
     <ProjectReference Include="..\AutoScaleService.Models\AutoScaleService.Models.csproj" />
+    <ProjectReference Include="..\AutoScaleService.Notifications\AutoScaleService.Notifications.csproj" />
+    <ProjectReference Include="..\AutoScaleService.RabbitMq\AutoScaleService.RabbitMq.csproj" />
     <ProjectReference Include="..\AutoScaleService.RabbitMq\AutoScaleService.Queue.csproj" />
   </ItemGroup>
 
