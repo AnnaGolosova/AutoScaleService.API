@@ -41,9 +41,8 @@ namespace AutoScaleService.API
                     }
                 });
             });
-
-            var t = Configuration.GetSection("ResourcesSettings");
-            services.Configure<ResourcesSettings>(t);
+            
+            services.Configure<ResourcesSettings>(Configuration.GetSection("ResourcesSettings"));
             services.ReqisterServices();
 
         }
