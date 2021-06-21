@@ -9,7 +9,9 @@ namespace AutoScaleService.Queue
 
         public T PeekNextTask()
         {
-            return _storage.Peek();
+            //return _storage.Peek();
+
+            return null;
         }
 
         public T GetNextTask()

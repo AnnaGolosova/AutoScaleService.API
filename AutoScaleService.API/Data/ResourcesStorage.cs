@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using AutoScaleService.Models.ResourcesSettings;
+using Microsoft.Extensions.Options;
 
 namespace AutoScaleService.API.Data
 {
@@ -15,15 +16,13 @@ namespace AutoScaleService.API.Data
         private readonly IHostedService _hostedService;
         private readonly ResourcesSettings _resourcesSettings;
 
-        private readonly List<AbstractComputeResource> _resources;
+        private readonly List<AbstractComputeResource> _resources = new List<AbstractComputeResource>();
 
-        public ResourcesStorage(IConfiguration configuration, IHostedService hostedService, ResourcesSettings resourcesSettings, IComputeResourcesFactory<ComputeResource> resourcesFactory)
+        public ResourcesStorage(IHostedService hostedService, IOptions<ResourcesSettings> resourcesSettings, IComputeResourcesFactory<ComputeResource> resourcesFactory)
         {
             _hostedService = hostedService;
-            _resourcesSettings = resourcesSettings;
+            _resourcesSettings = resourcesSettings.Value;
             _resourcesFactory = resourcesFactory;
-
-            _resources = new List<AbstractComputeResource>();
         }
 
         public int GetAvailableResourcesCount() => _resources.Count(r => !r.isBusy) + _resourcesSettings.MaxCount - _resources.Count();
@@ -36,7 +35,7 @@ namespace AutoScaleService.API.Data
             {
                 for(; countToCreate > 0; countToCreate--)
                 {
-                    var newResource = _resourcesFactory.CreateComputeResource();
+                    var newResource = _resourcesFactory.Create();
 
                     _resources.Add(newResource);
                 }

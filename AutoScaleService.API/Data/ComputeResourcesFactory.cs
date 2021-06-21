@@ -16,16 +16,8 @@ namespace AutoScaleService.API.Data
             _mediator = mediator;
         }
 
-        //public TResourceType Create<TResourceType>() where TResourceType : AbstractComputeResource, new()
-        //{
-        //    _logger.LogInformation("New abstract compute resource was created!");
-
-        //    return new TResourceType();
-        //}
-
-        public ComputeResource CreateComputeResource()
+        public ComputeResource Create()
         {
-            // TO DO change factory to be generic
             _logger.LogInformation("New compute resource was created!");
 
             return new ComputeResource(_mediator);

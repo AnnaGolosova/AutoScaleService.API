@@ -30,7 +30,7 @@ namespace AutoScaleService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTaskAsync([FromBody] RegisterTaskModel registerTaskModel)
+        public async Task<IActionResult> Register([FromBody] RegisterTaskModel registerTaskModel)
         {
             return Created(string.Empty, new RegisteredTaskResponse());
         }
