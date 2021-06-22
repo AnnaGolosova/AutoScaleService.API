@@ -19,14 +19,11 @@ namespace AutoScaleService.API.Services
 
         public void ProcessNextTask(WorkItem workItem)
         {
-            if(workItem == null)
+            if(workItem?.Task == null)
             {
-                throw new ArgumentNullException(nameof(WorkItem));
+                throw new ArgumentNullException();
             }
-            if(workItem.Task == null)
-            {
-                throw new ArgumentNullException(nameof(workItem.Task));
-            }
+
             _resourcesStorage.Execute(workItem.RequestedResourcesCount, workItem.Task);
         }
 

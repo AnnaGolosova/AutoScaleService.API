@@ -1,28 +1,42 @@
 ﻿using System;
-using System.Net.Http;
-using System.Text;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace AutoScaleService.Client
 {
     class Program
     {
+        private static readonly RestClient _client = new RestClient("http://localhost:33155");
+        private static readonly Random rnd = new Random();
+
         static void Main(string[] args)
         {
-            
-            //var json = JsonConvert.SerializeObject(new object());
-            var json = JsonConvert.
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            while (true)
+            {
+                var request = new RestRequest("api/compute-resources", Method.POST);
 
-            var url = "https://httpbin.org/post";
-            using var client = new HttpClient();
+                request.AddHeader("Accept", "application/json");
 
-            var responseTask = client.PostAsync(url, data);
+                var task = GetTaskAsJson();
 
-            var response = responseTask.Result;
+                request.AddParameter("application/json", task, ParameterType.RequestBody); 
+                request.RequestFormat = DataFormat.Json;
 
-            string result = response.Content.ReadAsStringAsync().Result;
+                _client.Post(request);
 
-            Console.WriteLine(result);
+                Console.ReadKey();
+            }
+        }
+
+        private static string GetTaskAsJson()
+        {
+            var data = new
+            {
+                EstimatedTaskDuration = rnd.Next(1, 300),
+                ComputeResourcesCount = rnd.Next(1, 10)
+            };
+
+            return JsonConvert.SerializeObject(data);
         }
     }
 }

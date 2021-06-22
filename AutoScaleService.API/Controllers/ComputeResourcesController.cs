@@ -1,9 +1,6 @@
-﻿using AutoScaleService.API.Data.Abstracts;
-using AutoScaleService.API.Services.Abstracts;
-using AutoScaleService.Models.Request;
+﻿using AutoScaleService.Models.Request;
 using AutoScaleService.Models.Response;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using AutoScaleService.API.Query;
 using MediatR;

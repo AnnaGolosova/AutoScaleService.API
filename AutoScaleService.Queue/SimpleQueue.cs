@@ -1,25 +1,23 @@
-﻿using AutoScaleService.AbstractQueue;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using AutoScaleService.AbstractQueue;
 
 namespace AutoScaleService.Queue
 {
     public class SimpleQueue<T> : ITasksQueue<T> where T : class
     {
-        private readonly Queue<T> _storage = new Queue<T>();
+        private readonly ConcurrentQueue<T> _storage = new ConcurrentQueue<T>();
 
-        public T PeekNextTask()
+        public bool TryPeekNextTask(out T task)
         {
-            //return _storage.Peek();
-
-            return null;
+            return _storage.TryPeek(out task);
         }
 
-        public T GetNextTask()
+        public bool TryGetNextTask(out T task)
         {
-            return _storage.Dequeue();
+            return _storage.TryDequeue(out task);
         }
 
-        public void SetNextTask(T task)
+        public void TrySetNextTask(T task)
         {
             _storage.Enqueue(task);
         }

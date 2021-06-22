@@ -38,17 +38,21 @@ namespace AutoScaleService.API.Services
 
         private void DoWork(object state)
         {
-            var task =_tasksQueue.PeekNextTask();
+            var isSuccessfulPeek =_tasksQueue.TryPeekNextTask(out var task);
 
-            if (_computeResourcesManager.CanProcessTask(1))
-            {
-                task = _tasksQueue.GetNextTask();
+            var taskCanBeProcessed = isSuccessfulPeek || _computeResourcesManager.CanProcessTask(1);
 
-                _computeResourcesManager.ProcessNextTask(task as WorkItem);
-            }
-            else
+            if (taskCanBeProcessed)
             {
                 StopAsync(new CancellationToken());
+                return;
+            }
+
+            var isSuccessfulGet = _tasksQueue.TryGetNextTask(out task);
+
+            if (isSuccessfulGet)
+            {
+                _computeResourcesManager.ProcessNextTask(task);
             }
         }
 

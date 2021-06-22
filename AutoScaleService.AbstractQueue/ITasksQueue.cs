@@ -2,8 +2,9 @@
 {
     public interface ITasksQueue<T> where T: class
     {
-        T PeekNextTask();
-        T GetNextTask();
-        void SetNextTask(T task);
+        bool TryPeekNextTask(out T task);
+        bool TryGetNextTask(out T task);
+        void TrySetNextTask(T task);
+
     }
 }
