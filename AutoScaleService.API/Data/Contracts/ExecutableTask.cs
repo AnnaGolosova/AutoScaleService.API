@@ -4,10 +4,10 @@ namespace AutoScaleService.API.Data.Contracts
 {
     public class ExecutableTask
     {
-        public ExecutableTask(Guid id, int timeToExecute, string redirectUrl)
+        public ExecutableTask(Guid id, string redirectUrl)
         {
             Id = id;
-            TimeToExecute = timeToExecute;
+            TimeToExecute = 1;
             RedirectUrl = redirectUrl;
         }
 

@@ -12,7 +12,7 @@
         {
             isBusy = true;
 
-            System.Threading.Thread.Sleep(1000 *task.TimeToExecute);
+            System.Threading.Thread.Sleep(1000);
 
             isBusy = false;
         }

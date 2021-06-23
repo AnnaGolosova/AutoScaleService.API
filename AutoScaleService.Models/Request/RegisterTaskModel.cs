@@ -7,9 +7,10 @@
         /// </summary>
         public string RedirectUrl { get; set; }
 
+        // ToDo
         /// <summary>
         /// How many computers will this task take
         /// </summary>
-        public int TranslationTasksCount { get; set; }
+        public int TranslationsCount { get; set; }
     }
 }

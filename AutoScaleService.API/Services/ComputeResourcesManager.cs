@@ -1,36 +1,39 @@
 ﻿using AutoScaleService.API.Data.Abstracts;
 using AutoScaleService.API.Data.Contracts;
 using AutoScaleService.API.Services.Abstracts;
-using MediatR;
+using AutoScaleService.Models.Request;
+using AutoScaleService.Models.ResourcesSettings;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace AutoScaleService.API.Services
 {
     public class ComputeResourcesManager : IComputeResourcesManager
     {
-        private readonly IMediator _mediator;
         private readonly IResourcesStorage _resourcesStorage;
+        private readonly ResourcesSettings _resourcesSettings;
 
-        public ComputeResourcesManager(IMediator mediator, IResourcesStorage resourcesStorage)
+        public ComputeResourcesManager(IResourcesStorage resourcesStorage,
+            IOptions<ResourcesSettings> resourcesSettings)
         {
-            _mediator = mediator;
             _resourcesStorage = resourcesStorage;
+            _resourcesSettings = resourcesSettings.Value;
         }
 
-        public void ProcessNextTask(WorkItem workItem)
+        public void ProcessNextTask(RegisterTaskModel workItem)
         {
-            if(workItem?.Task == null)
+            if(workItem == null)
             {
                 throw new ArgumentNullException();
             }
 
-            _resourcesStorage.Execute(workItem.TranslationTasksCount, workItem.Task);
+            _resourcesStorage.Execute(workItem);
         }
 
         public void ReleaseComputeResource(AbstractComputeResource computeResource)
             => _resourcesStorage.ReleaseComputeResource(computeResource);
 
-        public bool CanProcessTask(int estimatedTaskDuration)
-            => _resourcesStorage.GetAvailableToCreateResourcesCount() >= estimatedTaskDuration;
+        public bool CanProcessTask(int translationsCount)
+            => _resourcesStorage.GetAvailableToCreateResourcesCount() >= translationsCount / _resourcesSettings.ResourceTranslationRate;
     }
 }

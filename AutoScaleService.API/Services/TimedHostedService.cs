@@ -1,6 +1,7 @@
 ﻿using AutoScaleService.AbstractQueue;
 using AutoScaleService.API.Data.Contracts;
 using AutoScaleService.API.Services.Abstracts;
+using AutoScaleService.Models.Request;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,11 +15,11 @@ namespace AutoScaleService.API.Services
         private readonly ILogger<TimedHostedService> _logger;
         private Timer _timer;
 
-        private readonly ITasksQueue<WorkItem> _tasksQueue;
+        private readonly ITasksQueue<RegisterTaskModel> _tasksQueue;
         private readonly IComputeResourcesManager _computeResourcesManager;
 
         public TimedHostedService(ILogger<TimedHostedService> logger,
-            ITasksQueue<WorkItem> tasksQueue,
+            ITasksQueue<RegisterTaskModel> tasksQueue,
             IComputeResourcesManager computeResourcesManager)
         {
             _logger = logger;
@@ -40,13 +41,13 @@ namespace AutoScaleService.API.Services
         {
             var isSuccessfullPeek = _tasksQueue.TryPeekNextTask(out var task);
 
-            if (!isSuccessfullPeek || !(task is WorkItem model) || model == null)
+            if (!isSuccessfullPeek || !(task is RegisterTaskModel model) || model == null)
             {
                 // There are no new messages in the queue
                 return;
             }
 
-            var taskCanBeProcessed = isSuccessfullPeek && _computeResourcesManager.CanProcessTask(model.TranslationTasksCount);
+            var taskCanBeProcessed = isSuccessfullPeek && _computeResourcesManager.CanProcessTask(model.TranslationsCount);
 
             if (!taskCanBeProcessed)
             {
@@ -54,9 +55,7 @@ namespace AutoScaleService.API.Services
                 return;
             }
 
-            var isSuccessfullGet = _tasksQueue.TryGetNextTask(out task);
-
-            if (isSuccessfullGet)
+            if (_tasksQueue.TryGetNextTask(out task))
             {
                 _computeResourcesManager.ProcessNextTask(task);
             }
