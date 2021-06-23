@@ -5,6 +5,5 @@
         bool TryPeekNextTask(out T task);
         bool TryGetNextTask(out T task);
         void TrySetNextTask(T task);
-
     }
 }

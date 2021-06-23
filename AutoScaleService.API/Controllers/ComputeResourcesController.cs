@@ -1,9 +1,12 @@
-﻿using AutoScaleService.Models.Request;
-using AutoScaleService.Models.Response;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using AutoScaleService.AbstractQueue;
+using AutoScaleService.API.Data.Contracts;
 using AutoScaleService.API.Query;
+using AutoScaleService.Models.Request;
+using AutoScaleService.Models.Response;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AutoScaleService.API.Controllers
 {
@@ -12,10 +15,13 @@ namespace AutoScaleService.API.Controllers
     public class ComputeResourcesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ITasksQueue<WorkItem> _tasksQueue;
 
-        public ComputeResourcesController(IMediator mediator)
+        public ComputeResourcesController(IMediator mediator,
+            ITasksQueue<WorkItem> tasksQueue)
         {
             _mediator = mediator;
+            _tasksQueue = tasksQueue;
         }
 
         [HttpGet("available-resources-count")]
@@ -29,6 +35,13 @@ namespace AutoScaleService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterTaskModel registerTaskModel)
         {
+            var newGuid = Guid.NewGuid();
+            _tasksQueue.TrySetNextTask(new WorkItem() { 
+                TaskId = newGuid,
+                TranslationTasksCount = registerTaskModel.TranslationTasksCount,
+                Task = new ExecutableTask(newGuid, 5, registerTaskModel.RedirectUrl)
+            });
+
             return Created(string.Empty, new RegisteredTaskResponse());
         }
     }

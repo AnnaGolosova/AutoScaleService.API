@@ -6,7 +6,7 @@ namespace AutoScaleService.API.Data.Abstracts
     {
         void Execute(int requestedResourcesCount, ExecutableTask task);
 
-        int GetAvailableResourcesCount();
+        int GetAvailableToCreateResourcesCount();
 
         void ReleaseComputeResource(AbstractComputeResource computeResource);
     }

@@ -14,6 +14,8 @@ namespace AutoScaleService.API.Data.Contracts
 
         public override void Invoke(ExecutableTask task)
         {
+            Task = task;
+
             base.Invoke(task);
 
             _mediator.Send(new ComputeResourceReleasedCommand()

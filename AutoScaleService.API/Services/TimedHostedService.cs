@@ -38,19 +38,25 @@ namespace AutoScaleService.API.Services
 
         private void DoWork(object state)
         {
-            var isSuccessfulPeek =_tasksQueue.TryPeekNextTask(out var task);
+            var isSuccessfullPeek = _tasksQueue.TryPeekNextTask(out var task);
 
-            var taskCanBeProcessed = isSuccessfulPeek || _computeResourcesManager.CanProcessTask(1);
-
-            if (taskCanBeProcessed)
+            if (!isSuccessfullPeek || !(task is WorkItem model) || model == null)
             {
-                StopAsync(new CancellationToken());
+                // There are no new messages in the queue
                 return;
             }
 
-            var isSuccessfulGet = _tasksQueue.TryGetNextTask(out task);
+            var taskCanBeProcessed = isSuccessfullPeek && _computeResourcesManager.CanProcessTask(model.TranslationTasksCount);
 
-            if (isSuccessfulGet)
+            if (!taskCanBeProcessed)
+            {
+                StopAsync(CancellationToken.None);
+                return;
+            }
+
+            var isSuccessfullGet = _tasksQueue.TryGetNextTask(out task);
+
+            if (isSuccessfullGet)
             {
                 _computeResourcesManager.ProcessNextTask(task);
             }

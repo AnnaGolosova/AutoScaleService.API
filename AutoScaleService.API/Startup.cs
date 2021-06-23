@@ -33,7 +33,7 @@ namespace AutoScaleService.API
                 {
                     Version = "v1",
                     Title = "API for Auto-Scale service",
-                    Description = "a simple API to use our auto-scale service for executing your distributed tasks",
+                    Description = "A simple API to use our auto-scale service for executing your distributed tasks",
                     Contact = new OpenApiContact
                     {
                         Name = "Uladzislau Korsak",
@@ -44,7 +44,6 @@ namespace AutoScaleService.API
             
             services.Configure<ResourcesSettings>(Configuration.GetSection("ResourcesSettings"));
             services.ReqisterServices();
-
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

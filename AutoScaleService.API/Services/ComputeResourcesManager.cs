@@ -24,13 +24,13 @@ namespace AutoScaleService.API.Services
                 throw new ArgumentNullException();
             }
 
-            _resourcesStorage.Execute(workItem.RequestedResourcesCount, workItem.Task);
+            _resourcesStorage.Execute(workItem.TranslationTasksCount, workItem.Task);
         }
 
         public void ReleaseComputeResource(AbstractComputeResource computeResource)
             => _resourcesStorage.ReleaseComputeResource(computeResource);
 
         public bool CanProcessTask(int estimatedTaskDuration)
-            => _resourcesStorage.GetAvailableResourcesCount() >= estimatedTaskDuration;
+            => _resourcesStorage.GetAvailableToCreateResourcesCount() >= estimatedTaskDuration;
     }
 }
