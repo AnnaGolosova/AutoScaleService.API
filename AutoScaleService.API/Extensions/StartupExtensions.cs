@@ -27,13 +27,15 @@ namespace AutoScaleService.API.Extensions
             services.AddTransient(typeof(IComputeResourcesFactory<ComputeResource>), typeof(ComputeResourcesFactory));
             services.AddSingleton<IResourcesStorage, ResourcesStorage>();
             services.AddSingleton<IHostedService, TimedHostedService>();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddFile("app.log"));
         }
 
-        public static void UseFileLogging(this ILoggerFactory loggerFactory)
+        public static void AddFileLogging(this IServiceCollection services)
         {
             var currentDirectoryPath = Directory.GetCurrentDirectory();
 
-            loggerFactory.AddFile($"{currentDirectoryPath}\\Logs\\log.txt");
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Override("Microsoft", LogEventLevel.Error).WriteTo.File($"{currentDirectoryPath}\\Logs\\log.txt").CreateLogger();
         }
     }
 }

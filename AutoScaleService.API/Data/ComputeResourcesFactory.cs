@@ -1,26 +1,27 @@
-﻿using AutoScaleService.API.Data.Abstracts;
+﻿using System;
+using AutoScaleService.API.Data.Abstracts;
 using AutoScaleService.API.Data.Contracts;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace AutoScaleService.API.Data
 {
     public class ComputeResourcesFactory : IComputeResourcesFactory<ComputeResource>
     {
-        private readonly ILogger<ComputeResourcesFactory> _logger;
         private readonly IMediator _mediator;
 
-        public ComputeResourcesFactory(ILogger<ComputeResourcesFactory> logger, IMediator mediator)
+        public ComputeResourcesFactory(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         public ComputeResource Create(string notificationUrl)
         {
-            _logger.LogInformation("New compute resource was created!");
+            var resourceId = Guid.NewGuid();
 
-            return new ComputeResource(_mediator, notificationUrl);
+            Log.Logger.Information($"New compute resource with id {resourceId} was created!");
+
+            return new ComputeResource(_mediator, notificationUrl, resourceId);
         }
     }
 }

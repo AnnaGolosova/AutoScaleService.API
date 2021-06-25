@@ -15,7 +15,7 @@ namespace AutoScaleService.Client
     {
         private static readonly RestClient _client = new RestClient("http://localhost:33155");
         private static readonly Random _rnd = new Random();
-        private static readonly string _listenUrl = "http://localhost:1337/notifications/";
+        private static readonly string _listenUrl = "http://localhost:" + _rnd.Next(30000, 35000) + "/notifications/";
 
         static void Main(string[] args)
         {
@@ -27,26 +27,31 @@ namespace AutoScaleService.Client
 
                 request.AddHeader("Accept", "application/json");
 
-                var body = GetRequestBody();
+                var requestId = Guid.NewGuid();
+                var translationTasksCount = _rnd.Next(1, 100000);
+
+                var body = GetRequestBody(requestId, translationTasksCount);
 
                 request.AddParameter("application/json", body, ParameterType.RequestBody);
                 request.RequestFormat = DataFormat.Json;
 
+                Console.WriteLine($"Send request with id: {requestId} to process {translationTasksCount} tasks \n");
+
                 _client.Post(request);
 
-                var secondsToSleep = _rnd.Next(1, 60);
+                var secondsToSleep = _rnd.Next(1, 15);
                 Thread.Sleep(secondsToSleep * 1000);
 
             }
         }
 
-        private static string GetRequestBody()
+        private static string GetRequestBody(Guid id, int translationTasksCount)
         {
             var data = new
             {
-                TranslationTasksCount = _rnd.Next(1, 100000),
+                TranslationTasksCount = translationTasksCount,
                 NotificationUrl = _listenUrl,
-                RequestId = Guid.NewGuid()
+                RequestId = id
             };
 
             return JsonConvert.SerializeObject(data);
@@ -58,22 +63,30 @@ namespace AutoScaleService.Client
             using var listener = new HttpListener();
             listener.Prefixes.Add(_listenUrl);
 
-            listener.Start();
-
-            while (true)
+            try
             {
-                HttpListenerContext context = listener.GetContext();
+                listener.Start();
 
-                var requestDataAsString = ParseNotificationRequestDataToString(context.Request);
-
-                var notification = JsonConvert.DeserializeObject<Notification>(requestDataAsString);
-
-                if (notification != null)
+                while (true)
                 {
-                    Console.WriteLine($"Notification received:\n" +
-                                      $"RequestId {notification.RequestId} \n" +
-                                      $"Message: {notification.ResultMessage} \n");
+                    HttpListenerContext context = listener.GetContext();
+
+                    var requestDataAsString = ParseNotificationRequestDataToString(context.Request);
+
+                    var notification = JsonConvert.DeserializeObject<Notification>(requestDataAsString);
+
+                    if (notification != null)
+                    {
+                        Console.WriteLine($"Notification received:\n" +
+                                          $"RequestId {notification.RequestId} \n" +
+                                          $"Message: {notification.ResultMessage} \n");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                listener.Stop();
             }
         }
 

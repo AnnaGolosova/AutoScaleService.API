@@ -8,14 +8,14 @@ namespace AutoScaleService.API.Data.Contracts
 
         public ExecutableTask ExecutableTask { get; set; }
 
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
         public string NotificationUrl { get; }
 
-        protected AbstractComputeResource(string notificationUrl)
+        protected AbstractComputeResource(string notificationUrl, Guid id)
         {
             NotificationUrl = notificationUrl;
-            Id = Guid.NewGuid();
+            Id = id;
         }
 
         public virtual void Invoke(ExecutableTask task)

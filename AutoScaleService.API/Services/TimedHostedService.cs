@@ -6,12 +6,12 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoScaleService.Models.Tasks;
+using Serilog;
 
 namespace AutoScaleService.API.Services
 {
     public class TimedHostedService : IHostedService, IDisposable
     {
-        private readonly ILogger<TimedHostedService> _logger;
         private Timer _timer;
 
         private readonly ITasksQueue<RegisterTasksRequestDto> _tasksQueue;
@@ -21,14 +21,13 @@ namespace AutoScaleService.API.Services
             ITasksQueue<RegisterTasksRequestDto> tasksQueue,
             IComputeResourcesManager computeResourcesManager)
         {
-            _logger = logger;
             _tasksQueue = tasksQueue;
             _computeResourcesManager = computeResourcesManager;
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Timed Hosted Service running.");
+            Log.Logger.Information("Timed Hosted Service running");
 
             _timer = new Timer(Execute, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
@@ -62,8 +61,8 @@ namespace AutoScaleService.API.Services
         public Task StopAsync(CancellationToken stoppingToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
-
-            _logger.LogInformation("Timed Hosted Service stopped.");
+            
+            Log.Logger.Information("Timed Hosted Service stopped.");
 
             return Task.CompletedTask;
         }

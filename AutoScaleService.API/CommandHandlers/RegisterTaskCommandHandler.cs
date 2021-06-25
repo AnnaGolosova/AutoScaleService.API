@@ -5,8 +5,8 @@ using AutoScaleService.API.Commands;
 using AutoScaleService.Models.Configuration;
 using AutoScaleService.Models.Tasks;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace AutoScaleService.API.CommandHandlers
 {
@@ -14,12 +14,10 @@ namespace AutoScaleService.API.CommandHandlers
     {
         private readonly ITasksQueue<RegisterTasksRequestDto> _tasksQueue;
         private readonly ResourcesSettings _resourcesSettings;
-        private readonly ILogger<RegisterTaskCommandHandler> _logger;
 
-        public RegisterTaskCommandHandler(ITasksQueue<RegisterTasksRequestDto> tasksQueue, IOptions<ResourcesSettings> resourcesSettings, ILogger<RegisterTaskCommandHandler> logger)
+        public RegisterTaskCommandHandler(ITasksQueue<RegisterTasksRequestDto> tasksQueue, IOptions<ResourcesSettings> resourcesSettings)
         {
             _tasksQueue = tasksQueue;
-            _logger = logger;
             _resourcesSettings = resourcesSettings.Value;
         }
 
@@ -27,7 +25,7 @@ namespace AutoScaleService.API.CommandHandlers
         {
             RegisterTasksRequestDto registerTaskModel = request.RegisterTasksRequest;
 
-            _logger.LogInformation($"Get request to execute {registerTaskModel.TranslationTasksCount} tasks");
+            Log.Logger.Information($"Get request to execute {registerTaskModel.TranslationTasksCount} tasks");
 
             var fullTasksCount = registerTaskModel.TranslationTasksCount / _resourcesSettings.RequiredRate;
 

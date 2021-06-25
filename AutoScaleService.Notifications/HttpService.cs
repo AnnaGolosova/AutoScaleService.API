@@ -1,4 +1,5 @@
-﻿using AutoScaleService.Notifications.Abstracts;
+﻿using System;
+using AutoScaleService.Notifications.Abstracts;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +14,14 @@ namespace AutoScaleService.Notifications
 
             StringContent body = new StringContent(JsonConvert.SerializeObject(data));
 
-            await httpClient.PostAsync(url, body);
+            try
+            {
+                await httpClient.PostAsync(url, body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

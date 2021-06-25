@@ -1,5 +1,3 @@
-using System.IO;
-using AutoScaleService.API.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using AutoScaleService.API.Extensions;
 using AutoScaleService.Models.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace AutoScaleService.API
 {
@@ -28,6 +25,8 @@ namespace AutoScaleService.API
             services.AddControllers();
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddFileLogging();
 
             services.AddSwaggerGen(c =>
             {
@@ -48,10 +47,8 @@ namespace AutoScaleService.API
             services.AddCustomServices();
         }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            loggerFactory.UseFileLogging();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
