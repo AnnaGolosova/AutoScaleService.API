@@ -1,12 +1,11 @@
 ﻿using AutoScaleService.AbstractQueue;
-using AutoScaleService.API.Data.Contracts;
 using AutoScaleService.API.Services.Abstracts;
-using AutoScaleService.Models.Request;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoScaleService.Models.Tasks;
 
 namespace AutoScaleService.API.Services
 {
@@ -15,11 +14,11 @@ namespace AutoScaleService.API.Services
         private readonly ILogger<TimedHostedService> _logger;
         private Timer _timer;
 
-        private readonly ITasksQueue<RegisterTaskModel> _tasksQueue;
+        private readonly ITasksQueue<RegisterTasksRequestDto> _tasksQueue;
         private readonly IComputeResourcesManager _computeResourcesManager;
 
         public TimedHostedService(ILogger<TimedHostedService> logger,
-            ITasksQueue<RegisterTaskModel> tasksQueue,
+            ITasksQueue<RegisterTasksRequestDto> tasksQueue,
             IComputeResourcesManager computeResourcesManager)
         {
             _logger = logger;
@@ -31,41 +30,40 @@ namespace AutoScaleService.API.Services
         {
             _logger.LogInformation("Timed Hosted Service running.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(1));
+            _timer = new Timer(Execute, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
             return Task.CompletedTask;
         }
 
-        private void DoWork(object state)
+        private void Execute(object state)
         {
-            var isSuccessfullPeek = _tasksQueue.TryPeekNextTask(out var task);
+            var isSuccessfulPeek = _tasksQueue.TryPeekNextTask(out RegisterTasksRequestDto tasksRequestDto);
 
-            if (!isSuccessfullPeek || !(task is RegisterTaskModel model) || model == null)
+            if (!isSuccessfulPeek)
             {
-                // There are no new messages in the queue
                 return;
             }
 
-            var taskCanBeProcessed = isSuccessfullPeek && _computeResourcesManager.CanProcessTask(model.TranslationsCount);
+            var taskCanBeProcessed = _computeResourcesManager.CanProcessTask(tasksRequestDto.TranslationTasksCount);
 
             if (!taskCanBeProcessed)
             {
                 StopAsync(CancellationToken.None);
+
                 return;
             }
 
-            if (_tasksQueue.TryGetNextTask(out task))
+            if (_tasksQueue.TryGetNextTask(out tasksRequestDto))
             {
-                _computeResourcesManager.ProcessNextTask(task);
+                _computeResourcesManager.ProcessNextTask(tasksRequestDto);
             }
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Timed Hosted Service is stopping.");
-
             _timer?.Change(Timeout.Infinite, 0);
+
+            _logger.LogInformation("Timed Hosted Service stopped.");
 
             return Task.CompletedTask;
         }
@@ -73,6 +71,11 @@ namespace AutoScaleService.API.Services
         public void Dispose()
         {
             _timer?.Dispose();
+        }
+
+        ~TimedHostedService()
+        {
+            _timer.Dispose();
         }
     }
 }

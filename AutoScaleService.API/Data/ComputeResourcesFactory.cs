@@ -16,11 +16,11 @@ namespace AutoScaleService.API.Data
             _mediator = mediator;
         }
 
-        public ComputeResource Create()
+        public ComputeResource Create(string notificationUrl)
         {
             _logger.LogInformation("New compute resource was created!");
 
-            return new ComputeResource(_mediator);
+            return new ComputeResource(_mediator, notificationUrl);
         }
     }
 }

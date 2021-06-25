@@ -1,13 +1,14 @@
 ﻿using AutoScaleService.API.Data.Contracts;
-using AutoScaleService.Models.Request;
+using AutoScaleService.Models.Tasks;
 
 namespace AutoScaleService.API.Data.Abstracts
 {
     public interface IResourcesStorage
     {
-        void Execute(RegisterTaskModel model);
+        void Execute(RegisterTasksRequestDto model);
 
-        int GetAvailableToCreateResourcesCount();
+        int GetAvailableToStartResourcesCount();
+        int GetIdleResourcesCount();
 
         void ReleaseComputeResource(AbstractComputeResource computeResource);
     }

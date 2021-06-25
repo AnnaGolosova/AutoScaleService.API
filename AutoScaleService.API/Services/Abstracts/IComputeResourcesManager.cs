@@ -1,5 +1,5 @@
 ﻿using AutoScaleService.API.Data.Contracts;
-using AutoScaleService.Models.Request;
+using AutoScaleService.Models.Tasks;
 
 namespace AutoScaleService.API.Services.Abstracts
 {
@@ -7,7 +7,7 @@ namespace AutoScaleService.API.Services.Abstracts
     {
         bool CanProcessTask(int estimatedTaskDuration);
 
-        void ProcessNextTask(RegisterTaskModel workItem);
+        void ProcessNextTask(RegisterTasksRequestDto tasksRequestDto);
 
         void ReleaseComputeResource(AbstractComputeResource computeResource);
     }

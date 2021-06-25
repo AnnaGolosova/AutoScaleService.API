@@ -7,21 +7,18 @@ namespace AutoScaleService.API.Data.Contracts
     {
         private readonly IMediator _mediator;
 
-        public ComputeResource(IMediator mediator) :  base()
+        public ComputeResource(IMediator mediator, string notificationUrl) : base(notificationUrl)
         {
             _mediator = mediator;
         }
 
         public override void Invoke(ExecutableTask task)
         {
-            Task = task;
+            ExecutableTask = task;
 
             base.Invoke(task);
 
-            _mediator.Send(new ComputeResourceReleasedCommand()
-            { 
-                ComputeResource = this
-            });
+            _mediator.Send(new ComputeResourceReleasedCommand(this));
         }
     }
 }

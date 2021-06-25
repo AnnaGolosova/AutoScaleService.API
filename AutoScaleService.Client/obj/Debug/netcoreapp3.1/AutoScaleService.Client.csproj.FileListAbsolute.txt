@@ -7,3 +7,12 @@ D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleServic
 D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.csproj.CoreCompileInputs.cache
 D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.dll
 D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.pdb
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.exe
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.runtimeconfig.json
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Client.runtimeconfig.dev.json
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\RestSharp.dll
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.csproj.CopyComplete
+D:\Projects\Test\AutoScaleService.Client\obj\Debug\netcoreapp3.1\AutoScaleService.Client.genruntimeconfig.cache
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Models.dll
+D:\Projects\Test\AutoScaleService.Client\bin\Debug\netcoreapp3.1\AutoScaleService.Models.pdb

@@ -1,3 +1,4 @@
+using System.IO;
 using AutoScaleService.API.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using AutoScaleService.API.Extensions;
-using AutoScaleService.Models.ResourcesSettings;
+using AutoScaleService.Models.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AutoScaleService.API
 {
@@ -43,11 +45,13 @@ namespace AutoScaleService.API
             });
             
             services.Configure<ResourcesSettings>(Configuration.GetSection("ResourcesSettings"));
-            services.ReqisterServices();
+            services.AddCustomServices();
         }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.UseFileLogging();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

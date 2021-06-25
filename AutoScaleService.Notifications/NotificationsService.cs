@@ -1,7 +1,7 @@
 ﻿using AutoScaleService.Notifications.Abstracts;
-using AutoScaleService.Notifications.Models;
 using System;
 using System.Threading.Tasks;
+using AutoScaleService.Models.Notifications;
 
 namespace AutoScaleService.Notifications
 {
@@ -14,20 +14,14 @@ namespace AutoScaleService.Notifications
             _httpService = httpService;
         }
 
-        public async Task SendNotification(Notification notification)
+        public async Task SendNotification(Notification notification, string url)
         {
             if(notification == null)
             {
                 throw new ArgumentNullException(nameof(Notification));
             }
 
-            var resultToSend = new 
-            {
-                Result = notification.Result,
-                TaskId = notification.TaskId
-            };
-
-            await _httpService.SendNotificationAsync(notification.RedirectUrl, resultToSend);
+            await _httpService.Post(url, notification);
         }
     }
 }

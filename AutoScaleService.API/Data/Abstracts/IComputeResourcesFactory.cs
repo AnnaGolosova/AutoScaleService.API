@@ -4,6 +4,6 @@ namespace AutoScaleService.API.Data.Abstracts
 {
     public interface IComputeResourcesFactory<out TResourceType> where TResourceType : AbstractComputeResource
     {
-        TResourceType Create();
+        TResourceType Create(string notificationUrl);
     }
 }

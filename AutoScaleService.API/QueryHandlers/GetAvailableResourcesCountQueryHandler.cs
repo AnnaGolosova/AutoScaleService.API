@@ -17,7 +17,7 @@ namespace AutoScaleService.API.QueryHandlers
 
         public async Task<int> Handle(GetAvailableResourcesCountQuery request, CancellationToken cancellationToken)
         {
-            return _resourcesStorage.GetAvailableToCreateResourcesCount();
+            return _resourcesStorage.GetAvailableToStartResourcesCount();
         }
     }
 }

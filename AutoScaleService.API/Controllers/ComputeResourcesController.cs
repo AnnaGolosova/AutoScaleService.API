@@ -1,11 +1,9 @@
-﻿using AutoScaleService.AbstractQueue;
-using AutoScaleService.API.Query;
-using AutoScaleService.Models.Request;
-using AutoScaleService.Models.Response;
+﻿using AutoScaleService.API.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
+using AutoScaleService.API.Commands;
+using AutoScaleService.Models.Tasks;
 
 namespace AutoScaleService.API.Controllers
 {
@@ -14,13 +12,10 @@ namespace AutoScaleService.API.Controllers
     public class ComputeResourcesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ITasksQueue<RegisterTaskModel> _tasksQueue;
 
-        public ComputeResourcesController(IMediator mediator,
-            ITasksQueue<RegisterTaskModel> tasksQueue)
+        public ComputeResourcesController(IMediator mediator)
         {
             _mediator = mediator;
-            _tasksQueue = tasksQueue;
         }
 
         [HttpGet("available-resources-count")]
@@ -32,21 +27,16 @@ namespace AutoScaleService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] RegisterTaskModel registerTaskModel)
+        public async Task<IActionResult> Register([FromBody] RegisterTasksRequestDto registerTasksRequest)
         {
-            if(registerTaskModel.TranslationsCount > 100000)
+            if(registerTasksRequest.TranslationTasksCount > 100000)
             {
-                // todo
-                return BadRequest("each request can include up to 100, 000 tasks");
+                return BadRequest("Maximum tasks count (100 000) exceeded.");
             }
-            // todo - add log to file
-            // todo - add tasks separations
-            var fullTasksCount = registerTaskModel.TranslationsCount % 30000;
-            var remainTasks = registerTaskModel.TranslationsCount / 30000;
 
-            _tasksQueue.TrySetNextTask(registerTaskModel);
+            await _mediator.Send(new RegisterTaskCommand(registerTasksRequest));
 
-            return Created(string.Empty, new RegisteredTaskResponse());
+            return Accepted();
         }
     }
 }

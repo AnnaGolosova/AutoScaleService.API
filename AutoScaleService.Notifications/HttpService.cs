@@ -7,7 +7,7 @@ namespace AutoScaleService.Notifications
 {
     public class HttpService : IHttpService
     {
-        public async Task SendNotificationAsync(string url, object data)
+        public async Task Post(string url, object data)
         {
             HttpClient httpClient = new HttpClient();
 

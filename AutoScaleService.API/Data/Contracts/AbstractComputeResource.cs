@@ -1,25 +1,35 @@
-﻿namespace AutoScaleService.API.Data.Contracts
+﻿using System;
+
+namespace AutoScaleService.API.Data.Contracts
 {
     public abstract class AbstractComputeResource
     {
-        public bool isBusy { get; private set; }
+        public bool IsBusy { get; private set; }
 
-        public ExecutableTask Task { get; set; }
+        public ExecutableTask ExecutableTask { get; set; }
 
-        protected AbstractComputeResource() { }
+        public Guid Id { get; }
+
+        public string NotificationUrl { get; }
+
+        protected AbstractComputeResource(string notificationUrl)
+        {
+            NotificationUrl = notificationUrl;
+            Id = Guid.NewGuid();
+        }
 
         public virtual void Invoke(ExecutableTask task)
         {
-            isBusy = true;
+            IsBusy = true;
 
             System.Threading.Thread.Sleep(1000);
 
-            isBusy = false;
+            IsBusy = false;
         }
 
         public virtual void Release()
         {
-            isBusy = false;
+            IsBusy = false;
         }
     }
 }

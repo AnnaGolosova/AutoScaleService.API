@@ -4,6 +4,6 @@ namespace AutoScaleService.Notifications.Abstracts
 {
     public interface IHttpService
     {
-        Task SendNotificationAsync(string url, object data);
+        Task Post(string url, object data);
     }
 }

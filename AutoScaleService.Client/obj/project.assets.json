@@ -19,6 +19,16 @@
         "runtime": {
           "lib/netstandard2.0/RestSharp.dll": {}
         }
+      },
+      "AutoScaleService.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/AutoScaleService.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AutoScaleService.Models.dll": {}
+        }
       }
     }
   },
@@ -65,10 +75,16 @@
         "restsharp.nuspec",
         "restsharp.png"
       ]
+    },
+    "AutoScaleService.Models/1.0.0": {
+      "type": "project",
+      "path": "../AutoScaleService.Models/AutoScaleService.Models.csproj",
+      "msbuildProject": "../AutoScaleService.Models/AutoScaleService.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "AutoScaleService.Models >= 1.0.0",
       "Newtonsoft.Json >= 13.0.1",
       "RestSharp >= 106.11.7"
     ]
@@ -107,7 +123,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Projects\\Test\\AutoScaleService.Models\\AutoScaleService.Models.csproj": {
+              "projectPath": "D:\\Projects\\Test\\AutoScaleService.Models\\AutoScaleService.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
